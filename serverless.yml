@@ -1,0 +1,114 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: esneider2307
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: apipython002
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: PythonApi
+
+provider:
+  name: aws
+  runtime: python3.8
+  environment:
+    DB_HOST: localhost
+    DB_USER: root
+    DB_NAME: db_tickets2
+    DB_PORT: 3307
+
+plugins:
+  - serverless-offline
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /hello
+          method: get
+
+  crear:
+    handler: handler.crearTicket
+    events:
+      - httpApi:
+          path: /crearTicket
+          method: post        
+
+  listar:
+    handler: handler.getDatos
+    events:
+      - httpApi:
+          path: /getDatos
+          method: get  
+
+  listarPrioridad:
+    handler: handler.getPrioridad
+    events:
+      - httpApi:
+          path: /getPrioridad
+          method: get        
+
+  listarTicket:
+    handler: handler.getTicket
+    events:
+      - httpApi:
+          path: /getTicket/{id_ticket}
+          method: get  
+
+  listarTicketFiltro:
+    handler: handler.buscarTickets
+    events:
+      - httpApi:
+          path: /buscarTickets
+          method: get               
+
+  actualizar:
+    handler: handler.actualizarDatos     
+    events:
+      - httpApi:
+          path: /actualizarDatos/{id_ticket}
+          method: put
+
+  finalizar:
+    handler: handler.finalizarTicket
+    events:
+      - httpApi:
+          path: /finalizarTicket/{id_ticket}
+          method: post
+
+  validarToken:
+    handler: handler.validarTokenHandler
+    events:
+      - httpApi:
+          path: /validarTokenHandler
+          method: post
+          cors:
+          allowOrigins:
+            - '*'
+          allowHeaders:
+            - 'Content-Type'
+            - 'Authorization'
+          allowMethods:
+            - 'POST'
+
+  crearUsuario:
+    handler: handler.crearUsuario
+    events:
+      - httpApi:
+          path: /crearUsuario
+          method: post
+
+  login:
+    handler: handler.IniciarSesion
+    events:
+      - httpApi:
+          path: /IniciarSesion
+          method: post   
+
+  logout:
+    handler: handler.logoutUsuario
+    events:
+      - httpApi:
+          path: /logoutUsuario
+          method: post                                    
+ 
+ 
+ 
